@@ -1,0 +1,16 @@
+{
+  "files.associations": {
+    "istream": "cpp",
+    "utility": "cpp",
+    "list": "cpp",
+    "map": "cpp",
+    "unordered_map": "cpp",
+    "vector": "cpp",
+    "xhash": "cpp",
+    "xstring": "cpp",
+    "xtree": "cpp",
+    "memory": "cpp",
+    "system_error": "cpp",
+    "type_traits": "cpp"
+  }
+}
