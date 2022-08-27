@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1660037139 source:c:\users\hexszeug\documents\education\ioi\qualification\helloworld\main.cpp
+	<iostream>
+	<string>
+
