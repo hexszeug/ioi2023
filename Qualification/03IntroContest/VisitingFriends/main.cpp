@@ -1,44 +1,53 @@
 #include <iostream>
 #include <vector>
+#include <queue>
+#include <tuple>
 
 #define INF 1e9
+#define ll long long
+#define pli pair<ll, int>
 
 using namespace std;
 
-long long run() {
+vector<ll> dijkstra(vector<vector<int>> &adj, int start) {
+  int n = adj.size();
+  vector<ll> dist(n, INF);
+  priority_queue<pli, vector<pli>, greater<pli>> pq;
+  pq.push({0, start});
+  while (!pq.empty()) {
+    ll d; int v;
+    tie(d, v) = pq.top();
+    pq.pop();
+    if (dist[v] <= d) continue;
+    dist[v] = d;
+    for (int i = 0; i < n; i++)
+      if (adj[v][i] < INF)
+        pq.push({d + adj[v][i], i});
+  }
+  return dist;
+}
+
+ll run() {
   int n, m;
   cin >> n >> m;
-  vector<vector<int>> dist(n, vector<int>(n, INF));
-  long long total = 0;
+  vector<vector<int>> adj(n, vector<int>(n, INF));
   for (int i = 0; i < m; i++) {
     int a, b, d;
     cin >> a >> b >> d;
     a--, b--;
-    if (dist[a][b] > d) {
-      if (dist[a][b] != INF)
-        total -= dist[a][b];
-      total += d;
-      dist[a][b] = d;
-      dist[b][a] = d;
+    if (adj[a][b] > d) {
+      adj[a][b] = d;
+      adj[b][a] = d;
     }
   }
-  for (int w = 0; w < n; w++) {
-    for (int u = 0; u < n; u++) {
-      if (w == u) continue;
-      for (int v = u+1; v < n; v++) {
-        if (w == v) continue;
-        if (dist[u][w] + dist[w][v] < dist[u][v]) {
-          int d = dist[u][w] + dist[w][v];
-          if (dist[u][v] != INF)
-            total -= dist[u][v];
-          total += d;
-          dist[u][v] = d;
-          dist[v][u] = d;
-        }
-      }
+  ll total = 0;
+  for (int v = 0; v < n; v++) {
+    vector<ll> dist = dijkstra(adj, v);
+    for (int i = 0; i < n; i++) {
+      total += dist[i];
     }
   }
-  return 4*total;
+  return 2*total;
 } 
 
 int main() {
