@@ -8,5 +8,8 @@ int main() {
         cout << test[i];
     }
     cout << endl;
+    string name;
+    cin >> name;
+    cout << "Hello " << name << "!\n";
     return 0;
 }

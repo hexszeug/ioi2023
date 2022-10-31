@@ -6,17 +6,12 @@
     "configurations": [
         {
             "name": "Mac/Win32: build and debug active c/c++ file",
-            "type": "cppdbg",
+            "type": "lldb",
             "request": "launch",
             "program": "${workspaceFolder}/bin/${relativeFileDirname}/${fileBasenameNoExtension}",
             "args": [],
-            "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "lldb",
             "preLaunchTask": "Mac/Win32: build active c/c++ file to /bin/ folder",
-            "miDebuggerPath": "/usr/bin/lldb"
         }
     ]
 }
