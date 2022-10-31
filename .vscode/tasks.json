@@ -1,15 +1,39 @@
 {
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
     "tasks": [
         {
-            "type": "cppbuild",
-            "label": "C/C++: g++ compile",
-            "command": "/usr/bin/g++",
+            "type": "shell",
+            "label": "create bin folder for active file",
+            "command": "mkdir",
             "args": [
-                "-fdiagnostics-color=always",
+                "-p",
+                "${workspaceFolder}/bin/${relativeFileDirname}"
+            ],
+            "windows": {
+                "args": [
+                    "${workspaceFolder}/bin/${relativeFileDirname}"
+                ]
+            },
+            "group": "none"
+        },
+        {
+            "type": "shell",
+            "label": "Mac: build active c/c++ file to /bin/ folder",
+            "dependsOn": [
+                "create bin folder for active file"
+            ],
+            "command": "/usr/bin/clang++",
+            "args": [
+                "-std=c++17",
+                "-stdlib=libc++",
+                "-I",
+                "${workspaceFolder}/lib",
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${workspaceFolder}/bin/${relativeFileDirname}/${fileBasenameNoExtension}"
             ],
             "options": {
                 "cwd": "${fileDirname}"
@@ -17,12 +41,10 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
+            "group":{
                 "kind": "build",
                 "isDefault": true
-            },
-            "detail": "Vom Debugger generierte Aufgabe."
+            }
         }
-    ],
-    "version": "2.0.0"
+    ]
 }
