@@ -1,9 +1,0 @@
-# depslib dependency file v1.0
-1660126149 source:c:\users\hexszeug\documents\education\ioi\qualification\test\main.cpp
-	<iostream>
-
-1660126199 source:c:\users\hexszeug\documents\education\ioi\qualification\test\src\intlist.cpp
-	"IntList.h"
-
-1660126197 c:\users\hexszeug\documents\education\ioi\qualification\test\include\intlist.h
-
