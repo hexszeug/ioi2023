@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int bfs(vector<vector<int>> adjList, int start) {
+vector<int> bfs(vector<vector<int>> adjList, int start) {
     queue<int> q;
     vector<int> color(adjList.size(), 0); //0: none / not vis, 1: blue, 2: red
     q.push(start);
@@ -13,7 +13,7 @@ int bfs(vector<vector<int>> adjList, int start) {
         for (auto u : adjList[v]) {
             if (color[u] != 0) {
                 if (color[v] == color[u]) {
-                    return -1; // not possible
+                    return vector<int>(); // not possible
                 }
                 continue;
             };
@@ -26,7 +26,13 @@ int bfs(vector<vector<int>> adjList, int start) {
         if (c == 1) blue++;
         if (c == 2) red++;
     }
-    return max(blue, red);
+    if (red > blue) {
+        for (int i = 0; i < color.size(); i++) {
+            if (color[i] == 0) continue;
+            color[i] = (color[i] == 1) ? 2 : 1;
+        }
+    }
+    return color;
 }
 
 int main() {
@@ -40,7 +46,27 @@ int main() {
         adjList[a].push_back(b);
         adjList[b].push_back(a);
     }
-    int blue = bfs(adjList, 0);
+    int vis = 0, blue = 0, start = 0;
+    vector<int> color(N, 0);
+    while (vis < N) {
+        vector<int> newColor = bfs(adjList, start);
+        if (newColor.empty()) {
+            blue = -1;
+            break;
+        }
+        vis = 0, blue = 0;
+        for (int i = 0; i < N; i++) {
+            if (newColor[i] != 0) {
+                color[i] = newColor[i];
+            }
+            if (color[i] == 0) {
+                start = i;
+                continue;
+            }
+            if (color[i] == 1) blue++;
+            vis++;
+        }
+    }
     if (blue == -1) {
         cout << "NEIN" << endl;
     } else {
