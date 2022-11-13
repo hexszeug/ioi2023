@@ -2,42 +2,44 @@
 
 using namespace std;
 
-vector<int> bfs(vector<vector<int>> adjList, int start) {
+vector<bool> vis;
+
+int bfs(vector<vector<int>> &adjList, int start) {
     queue<int> q;
-    vector<int> color(adjList.size(), 0); //0: none / not vis, 1: blue, 2: red
+    vector<bool> color(adjList.size()); //false: blue, true: red
     q.push(start);
-    color[start] = 1;
+    color[start] = false;
+    vis[start] = true;
+    int blue = 1, red = 0;
     while(!q.empty()) {
         int v = q.front();
         q.pop();
         for (auto u : adjList[v]) {
-            if (color[u] != 0) {
+            if (vis[u]) {
                 if (color[v] == color[u]) {
-                    return vector<int>(); // not possible
+                    return -1; // not possible
                 }
                 continue;
-            };
-            color[u] = (color[v] == 1) ? 2 : 1;
+            }
+            if (color[v]) {
+                color[u] = false;
+                blue++;
+            } else {
+                color[u] = true;
+                red++;
+            }
+            vis[u] = true;
             q.push(u);
         }
     }
-    int blue = 0, red = 0;
-    for (auto c : color) {
-        if (c == 1) blue++;
-        if (c == 2) red++;
-    }
-    if (red > blue) {
-        for (int i = 0; i < color.size(); i++) {
-            if (color[i] == 0) continue;
-            color[i] = (color[i] == 1) ? 2 : 1;
-        }
-    }
-    return color;
+    return max(blue, red);
 }
 
 int main() {
+    ios_base::sync_with_stdio(false);
     int N, M;
     cin >> N >> M;
+    vis.resize(N, false);
     vector<vector<int>> adjList(N);
     for (int i = 0; i < M; i++) {
         int a, b;
@@ -46,31 +48,21 @@ int main() {
         adjList[a].push_back(b);
         adjList[b].push_back(a);
     }
-    int vis = 0, blue = 0, start = 0;
-    vector<int> color(N, 0);
-    while (vis < N) {
-        vector<int> newColor = bfs(adjList, start);
-        if (newColor.empty()) {
+    int blue = 0;
+    for (int start = 0; start < N; start++) {
+        if (vis[start]) continue;
+        int newBlue = bfs(adjList, start);
+        if (newBlue == -1) {
             blue = -1;
             break;
-        }
-        vis = 0, blue = 0;
-        for (int i = 0; i < N; i++) {
-            if (newColor[i] != 0) {
-                color[i] = newColor[i];
-            }
-            if (color[i] == 0) {
-                start = i;
-                continue;
-            }
-            if (color[i] == 1) blue++;
-            vis++;
+        } else {
+            blue += newBlue;
         }
     }
     if (blue == -1) {
-        cout << "NEIN" << endl;
+        cout << "NEIN";
     } else {
-        cout << "JA\n" << blue << endl;
+        cout << "JA\n" << blue;
     }
     return 0;
 }
