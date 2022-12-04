@@ -4,6 +4,9 @@
     "*.tcc": "cpp",
     "iostream": "cpp",
     "stack": "cpp",
-    "cstddef": "cpp"
+    "cstddef": "cpp",
+    "istream": "cpp",
+    "vector": "cpp",
+    "list": "cpp"
   }
 }
