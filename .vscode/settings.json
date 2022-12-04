@@ -2,6 +2,7 @@
   "files.associations": {
     "cinttypes": "cpp",
     "*.tcc": "cpp",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "stack": "cpp"
   }
 }
