@@ -3,6 +3,7 @@
     "cinttypes": "cpp",
     "*.tcc": "cpp",
     "iostream": "cpp",
-    "stack": "cpp"
+    "stack": "cpp",
+    "cstddef": "cpp"
   }
 }
